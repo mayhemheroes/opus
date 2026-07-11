@@ -1,0 +1,41 @@
+# Opus decode-fuzzer dictionary.
+# Input layout per packet: 4-byte big-endian length, 4-byte final-range (byte 4 low bit = FEC),
+# then an Opus packet beginning with a ToC byte. These tokens seed both the length/header prefix
+# and a range of ToC bytes covering SILK/hybrid/CELT configs, mono/stereo, and frame-count codes.
+
+# Length prefixes (big-endian) for a few small packet sizes after the 8-byte setup block.
+len_1="\x00\x00\x00\x01"
+len_2="\x00\x00\x00\x02"
+len_3="\x00\x00\x00\x03"
+len_8="\x00\x00\x00\x08"
+len_16="\x00\x00\x00\x10"
+len_40="\x00\x00\x00\x28"
+len_max="\x00\x00\x05\xdc"
+final_range_fec="\x01\x00\x00\x00"
+final_range_zero="\x00\x00\x00\x00"
+
+# ToC bytes (first packet byte): config<<3 | stereo<<2 | frame-count-code.
+# SILK NB/MB/WB (configs 0-11).
+toc_silk_nb_mono="\x00"
+toc_silk_nb_stereo="\x04"
+toc_silk_mb_mono="\x20"
+toc_silk_wb_mono="\x40"
+toc_silk_wb_stereo="\x44"
+# Hybrid SWB/FB (configs 12-15).
+toc_hybrid_swb="\x60"
+toc_hybrid_fb_stereo="\x74"
+# CELT NB/WB/SWB/FB (configs 16-31).
+toc_celt_nb="\x80"
+toc_celt_wb="\xa0"
+toc_celt_swb="\xc0"
+toc_celt_fb_mono="\xe0"
+toc_celt_fb_stereo="\xe4"
+# Frame-count codes (low 2 bits): 0=one frame, 1=two equal, 2=two diff, 3=arbitrary.
+toc_fb_two_equal="\xe5"
+toc_fb_two_diff="\xe6"
+toc_fb_arbitrary="\xe7"
+# Code-3 frame-count byte (vbr/padding flags + frame count) commonly follows ToC.
+code3_count_1="\x01"
+code3_count_2="\x02"
+code3_vbr="\x80"
+code3_padding="\x40"

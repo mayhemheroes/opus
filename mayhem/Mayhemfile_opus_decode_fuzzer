@@ -1,0 +1,9 @@
+project: opus
+target: opus_decode_fuzzer
+cmds:
+  - cmd: /mayhem/opus_decode_fuzzer
+    libfuzzer: true
+    dictionary: /mayhem/mayhem/opus_decode_fuzzer.dict
+testsuite:
+  - https://$MAYHEM_DOMAIN/$MAYHEM_PROJECT/$MAYHEM_TARGET/testsuite.tar
+  - file://mayhem/opus_decode_fuzzer/testsuite
